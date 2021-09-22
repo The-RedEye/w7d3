@@ -1,10 +1,7 @@
 require 'rails_helper.rb'
 
 RSpec.describe User, type: :model do
-    subject(:user1) {User.create(
-        username: 'jon',
-        password: 'password'
-    )}
+   
 
     it { should validate_presence_of(:username)}
     it { should validate_presence_of(:password_digest)}
