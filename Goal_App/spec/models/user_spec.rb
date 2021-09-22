@@ -37,14 +37,24 @@ RSpec.describe User, type: :model do
 
     describe "password encryption" do
         it "does not save passwords to the database" do
-            FactoryBot.create(:user, username: "stan")
-            user=User.find_by(username: "stan")
+            FactoryBot.create(:user, username: "emily")
+            user=User.find_by(username: "emily")
             expect(user.password).not_to eq("password")
         end
 
         it "does encrypt passowrd using BCrypt" do
             expect(BCrypt::Password).to receive(:create).with("whatever")
             FactoryBot.build(:user, password:"whatever")
+        end
+    end
+
+    describe "find_by_credentials" do 
+        FactoryBot.create(:user, username: "laura")
+        it "finds a used by credentials" do
+            expect(User.find_by_credentials("laura", "password")).to_not be nil
+        end
+        it "returns nil if not found" do 
+            expect(User.find_by_credentials("laura", "what")).to be nil
         end
     end
 
